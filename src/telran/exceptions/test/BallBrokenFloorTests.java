@@ -12,11 +12,14 @@ import telran.exceptions.NumberGreaterRangeMaxException;
 class BallBrokenFloorTests {
 
 	private static final int N_FLOORS = 100;
+	private static final int N_RUNS = N_FLOORS * 4;
 
 	@Test
 	void test() throws Exception {
-		BallBrokenFloor bbf = new BallBrokenFloor(N_FLOORS);
-		assertEquals(bbf.getBrokenFloor(), getMinBrokenFloor(bbf));
+		for (int i =0; i < N_RUNS; i++) {
+			BallBrokenFloor bbf = new BallBrokenFloor(N_FLOORS);
+			assertEquals(bbf.getBrokenFloor(), getMinBrokenFloor(bbf));
+		}
 	}
 
 	private int getMinBrokenFloor(BallBrokenFloor bbf) {
@@ -26,16 +29,16 @@ class BallBrokenFloorTests {
 		int left = 1;
 		int right = N_FLOORS;
 		int middle = (left + right) / 2;
-		while(left < right) {			
+		while(left <= right) {			
 			try {
 				bbf.checkFloor(middle);
 				left = middle + 1;
 			} catch (Exception e) {
-				right = middle;
+				right = middle - 1;
 			}
 			middle = (left + right) / 2;
 		}
-		return middle;
+		return left;
 	}
 	
 }
